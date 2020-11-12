@@ -1,25 +1,57 @@
-import logo from './logo.svg';
+import React, { Component } from "react";
 import './App.css';
+import NavBar from './components/NavBar'
+import EmployeeCard from './components/EmployeeCard'
+import employees from "./employee.json";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+
+class App extends Component {
+
+  state = {
+    employees,
+    newEmployees: employees
+  }
+
+  searchEmployee = event => {
+    const name = event.target.value
+    console.log(event, "hello")
+
+
+    const newEmployees = this.state.employees.filter(employee => employee.name.toLocaleLowerCase() === name.toLocaleLowerCase())
+
+    this.setState({ newEmployees: newEmployees })
+    console.log(event, "hello")
+
+    console.log(name)
+
+  }
+
+
+  render(){
+    return (
+      <div className="App">
+        <NavBar 
+        searchEmployee={this.searchEmployee}
+        
+        />
+        {/* <Title>Employee Directory</Title> */}
+        {this.state.newEmployees.map(employee => (
+        <EmployeeCard
+        id={employee.id}
+        name={employee.name}
+        image={employee.image}
+        occupation={employee.occupation}
+        location={employee.location}
+        />
+        ))}
+
+  
+      </div>
+    );
+  }
+
 }
 
 export default App;
